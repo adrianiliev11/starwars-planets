@@ -13,10 +13,10 @@ export default class Application extends EventEmitter {
   constructor() {
     super();
     this.config = config;
-    this.data = {
-      count: this.init().then(response => this.data.count = response.count),
-      planets: this.getPlanets().then(response => this.data.planets = response.results)
     }
+      planets: this.init().then(response => this.data.planets = response.results)
+      count: this.init().then(response => this.data.count = response.count),
+    this.data = {
     this.init();
   }
 
@@ -47,4 +47,3 @@ export default class Application extends EventEmitter {
     return data;
   }
 }
-
