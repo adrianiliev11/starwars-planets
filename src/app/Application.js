@@ -38,7 +38,6 @@ export default class Application extends EventEmitter {
     for(let i = 2; i <= 6; i++){
       const responsePlanets = await fetch(`https://swapi.booost.bg/api/planets/?page=${i}/`);
       const dataPlanets = await responsePlanets.json();
-      console.log(dataPlanets.results);
       data.results = data.results.concat(dataPlanets.results);
     }
     this.emit(Application.events.APP_READY);
