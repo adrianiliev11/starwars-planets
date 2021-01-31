@@ -15,7 +15,7 @@ export default class Application extends EventEmitter {
     this.config = config;
     this.data = {
       count: this.init().then(response => this.data.count = response.count),
-      planets: this.getPlanets().then(response => this.data.planets = response)
+      planets: this.init().then(response => this.data.planets = response.results)
     }
     this.init();
   }
@@ -35,15 +35,13 @@ export default class Application extends EventEmitter {
     // Initiate classes and wait for async operations here.
     const response = await fetch('https://swapi.booost.bg/api/planets/');
     const data = await response.json();
-    this.emit(Application.events.APP_READY);
-    return data;
-  }
-  async getPlanets(){
-    let response, data;
-    for(i=1;i<=60;i++){
-      response = await fetch(`https://swapi.booost.bg/api/planets/${i}/`);
-      data += await response.json();
+    for(let i = 2; i <= 6; i++){
+      const responsePlanets = await fetch(`https://swapi.booost.bg/api/planets/?page=${i}/`);
+      const dataPlanets = await responsePlanets.json();
+      console.log(dataPlanets.results);
+      data.results = data.results.concat(dataPlanets.results);
     }
+    this.emit(Application.events.APP_READY);
     return data;
   }
 }
